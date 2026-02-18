@@ -1,0 +1,25 @@
+name: 'env-doctor'
+description: 'Validate .env files against a schema. Catch missing vars, type errors, and config drift in CI.'
+author: 'Atyah Labs'
+
+branding:
+  icon: 'shield'
+  color: 'green'
+
+inputs:
+  schema:
+    description: 'Path to .env.schema file'
+    required: false
+    default: '.env.schema'
+  env-files:
+    description: 'Comma-separated list of .env files to check (or glob pattern)'
+    required: false
+    default: '.env'
+  fail-on-warn:
+    description: 'Fail the action on warnings (not just errors)'
+    required: false
+    default: 'false'
+
+runs:
+  using: 'node20'
+  main: 'action/index.js'

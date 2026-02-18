@@ -191,10 +191,70 @@ The schema also supports JSON format:
 | `-f, --file=<file>` | Target env file for sync (default: `.env`) |
 | `-s, --schema=<file>` | Schema file for sync (default: `.env.schema`) |
 
+### `env-doctor fix [dir]`
+
+Auto-fix your `.env` based on `.env.schema`. Adds missing variables, removes orphans, and sorts to match schema order.
+
+```bash
+env-doctor fix                      # add missing vars with defaults
+env-doctor fix --dry-run            # preview changes without writing
+env-doctor fix --remove-orphans     # comment out vars not in schema
+env-doctor fix --sort               # reorder to match schema order
+env-doctor fix --sort --remove-orphans --dry-run  # full preview
+```
+
+```
+env-doctor fix
+
+  Added 2 missing variable(s):
+    + PORT (default: 3000)
+    + API_KEY (empty)
+
+  Commented out 1 orphaned variable(s):
+    - OLD_UNUSED_VAR
+
+  ↕ Reordered variables to match schema order
+
+  ✓ Written .env
+```
+
+## GitHub Action
+
+Use env-doctor directly in your CI pipeline. It validates `.env` files on every push and PR, and posts a summary comment on PRs.
+
+```yaml
+# .github/workflows/env-check.yml
+name: Validate env files
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  env-doctor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: AtyahsLab/env-doctor@v1
+        with:
+          schema: '.env.schema'        # path to schema (default: .env.schema)
+          env-files: '.env,.env.test'   # comma-separated list (default: .env)
+          fail-on-warn: 'false'         # fail on warnings too (default: false)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+The action will:
+- ✅ Validate all specified `.env` files against your schema
+- ❌ Fail the workflow if errors are found
+- 💬 Post a summary table as a PR comment (updated on each push)
+- 📊 Write results to the GitHub Actions job summary
+
 ## CI Integration
 
 ```yaml
-# GitHub Actions
+# Simple usage with npx
 - run: npx env-doctor check --strict
 ```
 

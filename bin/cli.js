@@ -47,6 +47,7 @@ ${fmt.key('Usage:')}
   env-doctor mask   [dir]            Print .env with sensitive values masked
   env-doctor init   [dir]            Generate .env.example from an existing .env
   env-doctor sync   [dir]            Sync .env with schema/example (add missing vars)
+  env-doctor fix    [dir]            Auto-fix .env based on .env.schema
 
 ${fmt.key('Options:')}
   --strict           Exit with error on warnings too
@@ -60,6 +61,8 @@ ${fmt.key('Options:')}
   --dry-run          Preview without writing
   --no-heuristics    Skip heuristic checks in check command
   --non-interactive  Skip prompts in sync (use defaults or leave empty)
+  --remove-orphans   Comment out variables not in schema (fix)
+  --sort             Sort variables to match schema order (fix)
   -f, --file=<file>  Target env file for sync (default: .env)
   -s, --schema=<f>   Schema file for sync (default: .env.schema)
   -h, --help         Show help
@@ -83,6 +86,7 @@ const COMMANDS = {
   mask: '../src/commands/mask',
   init: '../src/commands/init',
   sync: '../src/commands/sync',
+  fix: '../src/commands/fix',
 };
 
 if (!COMMANDS[command]) {

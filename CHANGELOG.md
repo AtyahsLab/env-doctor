@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.2.0] - 2026-02-18
+
+### Added
+
+- `fix` command — auto-fix `.env` based on `.env.schema` (add missing vars, remove orphans, sort)
+- `--remove-orphans` flag to comment out variables not in schema
+- `--sort` flag to reorder variables to match schema order
+- `--dry-run` support for fix (preview changes with colored diff)
+- GitHub Action (`action.yml`) — run env-doctor in CI on PRs and pushes
+- Action posts summary comments on PRs with validation results
+- Action supports `schema`, `env-files`, and `fail-on-warn` inputs
+
 ## [1.1.0] - 2026-02-18
 
 ### Added
@@ -30,5 +42,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `--strict` mode for CI usage
 - Zero dependencies
 
+[1.2.0]: https://github.com/AtyahsLab/env-doctor/releases/tag/v1.2.0
 [1.1.0]: https://github.com/AtyahsLab/env-doctor/releases/tag/v1.1.0
 [1.0.0]: https://github.com/AtyahsLab/env-doctor/releases/tag/v1.0.0
