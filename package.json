@@ -1,0 +1,41 @@
+{
+  "name": "env-doctor",
+  "version": "1.0.0",
+  "description": "Diagnose, validate, and manage your .env files. Find missing vars, type mismatches, and sync across environments.",
+  "main": "src/index.js",
+  "bin": {
+    "env-doctor": "./bin/cli.js"
+  },
+  "scripts": {
+    "test": "node --test test/**/*.test.js",
+    "test:verbose": "node --test --test-reporter=spec test/**/*.test.js"
+  },
+  "keywords": [
+    "env",
+    "dotenv",
+    "environment",
+    "variables",
+    "validate",
+    "cli",
+    "developer-tools",
+    "devops",
+    "configuration",
+    "schema",
+    "lint"
+  ],
+  "author": "Atyah Labs",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AtyahsLab/env-doctor"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "README.md",
+    "LICENSE"
+  ]
+}
