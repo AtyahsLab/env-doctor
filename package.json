@@ -4,7 +4,7 @@
   "description": "Diagnose, validate, and manage your .env files. Find missing vars, type mismatches, and sync across environments.",
   "main": "src/index.js",
   "bin": {
-    "env-doctor": "./bin/cli.js"
+    "env-doctor": "bin/cli.js"
   },
   "scripts": {
     "test": "node --test test/**/*.test.js",
