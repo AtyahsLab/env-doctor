@@ -12,7 +12,10 @@ const command = args.find(a => !a.startsWith('-'));
 const flags = {};
 const positional = [];
 
-for (const arg of args) {
+const SHORT_VALUE_FLAGS = new Set(['f', 's']);
+
+for (let i = 0; i < args.length; i++) {
+  const arg = args[i];
   if (arg === command && positional.length === 0 && !arg.startsWith('-')) {
     continue; // skip the command itself
   } else if (arg.startsWith('--')) {
@@ -23,7 +26,12 @@ for (const arg of args) {
       flags[arg.slice(2)] = true;
     }
   } else if (arg.startsWith('-') && arg.length === 2) {
-    flags[arg.slice(1)] = true;
+    const flag = arg.slice(1);
+    if (SHORT_VALUE_FLAGS.has(flag) && i + 1 < args.length) {
+      flags[flag] = args[++i];
+    } else {
+      flags[flag] = true;
+    }
   } else {
     positional.push(arg);
   }
@@ -38,6 +46,7 @@ ${fmt.key('Usage:')}
   env-doctor diff   <file1> <file2>  Compare two env files side by side
   env-doctor mask   [dir]            Print .env with sensitive values masked
   env-doctor init   [dir]            Generate .env.example from an existing .env
+  env-doctor sync   [dir]            Sync .env with schema/example (add missing vars)
 
 ${fmt.key('Options:')}
   --strict           Exit with error on warnings too
@@ -50,6 +59,9 @@ ${fmt.key('Options:')}
   --force            Overwrite existing files
   --dry-run          Preview without writing
   --no-heuristics    Skip heuristic checks in check command
+  --non-interactive  Skip prompts in sync (use defaults or leave empty)
+  -f, --file=<file>  Target env file for sync (default: .env)
+  -s, --schema=<f>   Schema file for sync (default: .env.schema)
   -h, --help         Show help
   -v, --version      Show version
 `;
@@ -70,6 +82,7 @@ const COMMANDS = {
   diff: '../src/commands/diff',
   mask: '../src/commands/mask',
   init: '../src/commands/init',
+  sync: '../src/commands/sync',
 };
 
 if (!COMMANDS[command]) {
@@ -81,7 +94,13 @@ const dir = command === 'diff'
   : path.resolve(positional[0] || '.');
 
 try {
-  require(COMMANDS[command]).run(dir, flags, positional);
+  const result = require(COMMANDS[command]).run(dir, flags, positional);
+  if (result && typeof result.then === 'function') {
+    result.catch(err => {
+      if (process.env.DEBUG) console.error(err);
+      fmt.die(err.message);
+    });
+  }
 } catch (err) {
   if (process.env.DEBUG) console.error(err);
   fmt.die(err.message);

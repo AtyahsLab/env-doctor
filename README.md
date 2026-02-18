@@ -3,7 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/@atyahassis/env-doctor)](https://www.npmjs.com/package/@atyahassis/env-doctor)
 [![license](https://img.shields.io/npm/l/@atyahassis/env-doctor)](./LICENSE)
 [![node](https://img.shields.io/node/v/@atyahassis/env-doctor)](https://nodejs.org)
-[![tests](https://img.shields.io/badge/tests-50%20passing-brightgreen)](#)
+[![tests](https://img.shields.io/badge/tests-66%20passing-brightgreen)](#)
 
 Diagnose, validate, and manage your `.env` files. Find missing vars, catch type mismatches, and keep environments in sync.
 
@@ -94,6 +94,38 @@ env-doctor init --dry-run        # preview without writing
 env-doctor init --force          # overwrite existing
 ```
 
+### `env-doctor sync [dir]`
+
+Sync your `.env` with a `.env.schema` or `.env.example`. Adds missing variables, preserves existing values, and warns about orphaned vars.
+
+```bash
+env-doctor sync                      # interactive — prompts for missing values
+env-doctor sync --non-interactive    # use defaults or leave empty
+env-doctor sync --dry-run            # preview what would change
+env-doctor sync -f .env.local        # sync a different env file
+env-doctor sync -s custom.schema     # use a custom schema file
+```
+
+```
+Syncing .env with .env.schema
+
+  ⚠ Orphaned variables (not in .env.schema):
+    ! OLD_UNUSED_VAR
+
+  Variables to add:
+    + PORT=3000 (default)
+    + API_KEY= (empty)
+
+  ✓ Written .env (2 variable(s) added)
+```
+
+**How it works:**
+1. Reads `.env.schema` (or `.env.example` as fallback)
+2. Reads your existing `.env` (if it exists)
+3. For missing variables: uses schema defaults, example values, or prompts you
+4. Warns about variables in `.env` that aren't in the schema
+5. Writes the updated `.env`, preserving all existing content
+
 ## Schema Format (`.env.schema`)
 
 Define validation rules for your env vars. Simple DSL — one variable per line:
@@ -155,6 +187,9 @@ The schema also supports JSON format:
 | `--force` | Overwrite existing files |
 | `--dry-run` | Preview without writing |
 | `--no-heuristics` | Skip heuristic checks |
+| `--non-interactive` | Skip prompts in sync (use defaults or leave empty) |
+| `-f, --file=<file>` | Target env file for sync (default: `.env`) |
+| `-s, --schema=<file>` | Schema file for sync (default: `.env.schema`) |
 
 ## CI Integration
 
