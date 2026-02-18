@@ -1,5 +1,5 @@
 {
-  "name": "env-doctor",
+  "name": "@atyahassis/env-doctor",
   "version": "1.0.0",
   "description": "Diagnose, validate, and manage your .env files. Find missing vars, type mismatches, and sync across environments.",
   "main": "src/index.js",
@@ -29,6 +29,10 @@
     "type": "git",
     "url": "https://github.com/AtyahsLab/env-doctor"
   },
+  "homepage": "https://github.com/AtyahsLab/env-doctor#readme",
+  "bugs": {
+    "url": "https://github.com/AtyahsLab/env-doctor/issues"
+  },
   "engines": {
     "node": ">=18.0.0"
   },
@@ -36,6 +40,7 @@
     "bin/",
     "src/",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "CHANGELOG.md"
   ]
 }

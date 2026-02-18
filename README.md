@@ -1,6 +1,13 @@
 # env-doctor 🩺
 
+[![npm version](https://img.shields.io/npm/v/@atyahassis/env-doctor)](https://www.npmjs.com/package/@atyahassis/env-doctor)
+[![license](https://img.shields.io/npm/l/@atyahassis/env-doctor)](./LICENSE)
+[![node](https://img.shields.io/node/v/@atyahassis/env-doctor)](https://nodejs.org)
+[![tests](https://img.shields.io/badge/tests-50%20passing-brightgreen)](#)
+
 Diagnose, validate, and manage your `.env` files. Find missing vars, catch type mismatches, and keep environments in sync.
+
+> **Zero dependencies.** Pure Node.js. Works with any framework.
 
 ```
 $ env-doctor check
@@ -157,6 +164,19 @@ The schema also supports JSON format:
 ```
 
 Exit codes: `0` = all good, `1` = errors found.
+
+## Why env-doctor?
+
+- 🔍 **Find missing vars** before your app crashes at runtime
+- 📐 **Schema validation** — types, patterns, enums, ranges
+- 🔒 **Mask secrets** for safe sharing in logs and PRs
+- 🔄 **Diff environments** — spot drift between local, staging, production
+- 📦 **Zero dependencies** — nothing to audit, nothing to break
+- ⚡ **Fast** — 50 tests run in <1s
+
+## Contributing
+
+Issues and PRs welcome at [github.com/AtyahsLab/env-doctor](https://github.com/AtyahsLab/env-doctor).
 
 ## License
 
